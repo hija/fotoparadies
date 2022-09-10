@@ -1,4 +1,5 @@
 from datetime import datetime
+from sqlite3 import paramstyle
 from typing import Union
 
 import requests
@@ -16,7 +17,7 @@ class FotoparadiesStatus:
             shop (int): Filialnummer
             order (int): Auftragsnummer
         """
-        self._statusjson = self._get_json_status(shop=shop, oder=order)
+        self._statusjson = self._get_json_status(shop=shop, order=order)
         self._name = name
 
     @property
@@ -42,7 +43,7 @@ class FotoparadiesStatus:
         return self._statusjson["summaryDate"]
 
     @property
-    def getprice(self) -> float:
+    def price(self) -> float:
         """Preis für den Auftrag
 
         Returns:
@@ -65,7 +66,8 @@ class FotoparadiesStatus:
             dict[str, Union[str, int, float, None]]: Den Auftragszustand.
         """
 
-        requesturl = f"https://spot.photoprintit.com/spotapi/orderInfo/forShop?config={config}&shop={shop}8&order={order}"
-        request = requests.get(requesturl)
+        requesturl = f"https://spot.photoprintit.com/spotapi/orderInfo/forShop"
+        parameters = {"config": config, "shop": shop, "order": order}
+        request = requests.get(requesturl, params=parameters)
 
         return request.json()
