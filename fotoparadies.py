@@ -22,7 +22,11 @@ class FotoparadiesStatus:
 
     @property
     def ordername(self) -> Union[str, None]:
-        return self._name
+        return self._name if self._name else self.order
+
+    @property
+    def order(self) -> int:
+        return self._statusjson["orderNo"]
 
     @property
     def currentstatus(self) -> str:
