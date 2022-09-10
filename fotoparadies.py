@@ -57,13 +57,13 @@ class FotoparadiesStatus:
         return self._statusjson["summaryDate"]
 
     @property
-    def price(self) -> float:
+    def price(self) -> str:
         """Preis für den Auftrag
 
         Returns:
             float: Auftragspreis
         """
-        return self._statusjson["summaryPrice"]
+        return self._statusjson["summaryPriceText"]
 
     @staticmethod
     def _get_json_status(
