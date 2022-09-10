@@ -10,19 +10,29 @@ class FotoparadiesStatus:
     Klasse zum Abrufen und Verabeiten des akutellen Auftragstatus von Fotoarbeiten
     """
 
-    def __init__(self, shop: int, order: int, name: str = None) -> None:
+    def __init__(
+        self, shop: int, order: int, name: str = None, fetch_data=True
+    ) -> None:
         """Initialisiert einen Fotoparadies Status
 
         Args:
             shop (int): Filialnummer
             order (int): Auftragsnummer
         """
-        self._statusjson = self._get_json_status(shop=shop, order=order)
+
+        self._order = order
+        self._shop = shop
         self._name = name
+
+        if fetch_data:
+            self.refresh()
+
+    def refresh(self):
+        self._statusjson = self._get_json_status(shop=self._shop, order=self._order)
 
     @property
     def ordername(self) -> Union[str, None]:
-        return self._name if self._name else self.order
+        return self._name if self._name else str(self._order)
 
     @property
     def order(self) -> int:
