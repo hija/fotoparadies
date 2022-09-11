@@ -1,4 +1,4 @@
-# Fotoparadies Status Checker
+# Fotoparadies Status Checker 📸⁉️
 
 📝 Der Fotoparadies Status Checker ermöglicht das Überprüfen des aktuellen Status von abgegebenen Fotoaufträgen (beispielsweise im DM).
 
