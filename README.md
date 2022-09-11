@@ -2,6 +2,8 @@
 
 📝 Der Fotoparadies Status Checker ermöglicht das Überprüfen des aktuellen Status von abgegebenen Fotoaufträgen (beispielsweise im DM).
 
+![](doc/img/01_status.png)
+
 ## Funktionsweise
 1. **Neue Aufträge hinzufügen**
    
