@@ -35,3 +35,7 @@
 **Q: Wieso ist der Status ERROR?**
 
 A: Der Status ist ERROR, wenn der Auftrag noch nicht im Großlabor angekommen und eingescannt wurde.
+
+**Q: Wie kann man das Script global erreichbar machen?**
+
+A: MacOS: Beispielsweise `alias fotoparadies="/Users/hilko/Documents/Git/fotoparadies-status/venv/bin/python /Users/hilko/Documents/Git/fotoparadies-status/main.py"` in die ~/.zshrc einfügen (Pfad muss angepasst werden)
