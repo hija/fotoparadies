@@ -15,6 +15,12 @@ console = Console()
 
 
 def _get_orders_filepath() -> Path:
+    """Gibt einen Pfad zurück, an dem die Aufträge als Pickle-Datei abgelegt werden können.
+    Der Pfad ist abhängig vom Betriebssystem. Der Pfad wird angelegt, falls er nicht existiert.
+
+    Returns:
+        Path: Der Pfad, an dem die Aufträge als Pickle exportiert werden können.
+    """
     app_path = Path(user_config_dir(appname="fotoparadies-status", appauthor="hija"))
     app_path.mkdir(parents=True, exist_ok=True)
 
@@ -23,6 +29,11 @@ def _get_orders_filepath() -> Path:
 
 
 def get_orders_list() -> list[FotoparadiesStatus]:
+    """Liest die eingespeicherte Pickle Datei ein und gibt eine Liste mit Auftragsstati zurück.
+
+    Returns:
+        list[FotoparadiesStatus]: Liste mit Fotoparadies-Stati
+    """
     order_file = _get_orders_filepath()
     if order_file.exists():
         file = open(order_file, "rb")
@@ -32,11 +43,21 @@ def get_orders_list() -> list[FotoparadiesStatus]:
 
 
 def save_orders_list(list: list[FotoparadiesStatus]):
+    """Speichert die Auftragsstati in einer Pickledatei ab
+
+    Args:
+        list (list[FotoparadiesStatus]): Liste der Autragsstati, die abgespeichert werden sollen.
+    """
     order_file = _get_orders_filepath()
     pickle.dump(list, open(order_file, "wb"))
 
 
 def _print_table_with_status(fp_stati: list[FotoparadiesStatus]):
+    """Gibt eine ASCII-Tabelle mit den Auftragsstati aus.
+
+    Args:
+        fp_stati (list[FotoparadiesStatus]): Die Auftragsstati, die ausgegeben werden sollen.
+    """
 
     table = Table("Name", "Letztes Update", "Status", "Preis")
 
@@ -53,6 +74,7 @@ def _print_table_with_status(fp_stati: list[FotoparadiesStatus]):
 
 @app.command()
 def status():
+    """Gibt die Stati der abgespeicherten Aufträge in einer Tabelle aus"""
     current_list = get_orders_list()
 
     for fp_status in track(
@@ -61,7 +83,9 @@ def status():
         total=len(current_list),
     ):
         fp_status.refresh()
-        time.sleep(1)
+        time.sleep(
+            1
+        )  # Nach jeder Aktualisierung wird 1s gewartet um die API nicht zu überfordern
 
     save_orders_list(current_list)
     _print_table_with_status(current_list)
@@ -69,6 +93,13 @@ def status():
 
 @app.command()
 def add(shop: int, order: int, name: Optional[str] = typer.Argument(None)):
+    """Fügt einen Fotoauftrag hinzu
+
+    Args:
+        shop (int): Der DM Store, an dem der Auftrag abgegeben wurde
+        order (int): Die Auftragsnummer
+        name (Optional[str], optional): Ein Name, mit dem der Auftrag wiedererkannt werden kann
+    """
     fp_status = FotoparadiesStatus(shop, order, name, fetch_data=False)
     current_list = get_orders_list()
 
@@ -92,6 +123,11 @@ def add(shop: int, order: int, name: Optional[str] = typer.Argument(None)):
 
 @app.command()
 def remove(name: str):
+    """Löscht einen Fotoauftrag
+
+    Args:
+        name (str): Der Name des Auftrags
+    """
     current_list = get_orders_list()
     for elem in current_list:
         if elem.ordername and elem.ordername == name:
@@ -104,6 +140,7 @@ def remove(name: str):
 
 @app.command()
 def cleanup():
+    """Löscht Aufträge, die bereits zurückgeschickt wurden (Status DELIVERED)"""
     removed_entries = 0
 
     current_list = get_orders_list()

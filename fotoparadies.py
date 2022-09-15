@@ -28,14 +28,25 @@ class FotoparadiesStatus:
             self.refresh()
 
     def refresh(self):
+        """Aktualisiert die Auftragsdaten mit der Fotoparadies API"""
         self._statusjson = self._get_json_status(shop=self._shop, order=self._order)
 
     @property
-    def ordername(self) -> Union[str, None]:
+    def ordername(self) -> str:
+        """Gibt den Auftragsnamen (entweder die Auftragsnummer oder benutzerdefiniert) zurück
+
+        Returns:
+            str: Auftragsnamen (entweder die Auftragsnummer oder benutzerdefiniert)
+        """
         return self._name if self._name else str(self._order)
 
     @property
     def order(self) -> int:
+        """Gibt die Auftragsnummerzurück
+
+        Returns:
+            int: Auftragsnummer
+        """
         return self._statusjson["orderNo"]
 
     @property
