@@ -141,15 +141,16 @@ def remove(name: str):
 @app.command()
 def cleanup():
     """Löscht Aufträge, die bereits zurückgeschickt wurden (Status DELIVERED)"""
-    removed_entries = 0
 
     current_list = get_orders_list()
-    for elem in current_list:
-        if elem.currentstatus and elem.currentstatus == "DELIVERED":
-            current_list.remove(elem)
-            removed_entries += 1
-    save_orders_list(current_list)
+    list_without_delivered = [
+        order
+        for order in current_list
+        if not (order.currentstatus and order.currentstatus == "DELIVERED")
+    ]
+    save_orders_list(list_without_delivered)
 
+    removed_entries = len(current_list) - len(list_without_delivered)
     if removed_entries > 0:
         console.print(
             f":heavy_check_mark: Es [bold]wurde(n) {removed_entries} Aufträge[/bold], die bereits geliefert wurden, [bold]gelöscht[/bold]."
