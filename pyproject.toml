@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "fotoparadies"
+version = "0.1.0"
+description = "Shows status of fotoparadies orders"
+authors = ["hilko"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "fotoparadies"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+requests = "^2.28.1"
+typer = {extras = ["all"], version = "^0.6.1"}
+platformdirs = "^2.5.2"
+
+[tool.poetry.scripts]
+fotoparadies = "fotoparadies.main:app"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
