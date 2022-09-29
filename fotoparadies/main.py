@@ -4,7 +4,7 @@ from typing import Optional
 import typer
 from rich.progress import track
 
-from fotoparadies import FotoparadiesStatus
+from .fotoparadies import FotoparadiesStatus
 from rich.console import Console
 from rich.table import Table
 from platformdirs import user_config_dir
