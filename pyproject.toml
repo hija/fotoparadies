@@ -6,6 +6,7 @@ authors = ["hilko"]
 license = "MIT"
 readme = "README.md"
 packages = [{include = "fotoparadies"}]
+repository = "https://github.com/hija/fotoparadies"
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -15,6 +16,9 @@ platformdirs = "^2.5.2"
 
 [tool.poetry.scripts]
 fotoparadies = "fotoparadies.main:app"
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/hija/fotoparadies/issues"
 
 [build-system]
 requires = ["poetry-core"]
